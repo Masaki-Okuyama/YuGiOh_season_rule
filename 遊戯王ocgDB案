@@ -8,7 +8,7 @@ https://yugioh-list.com/collects
 https://ocg-card.com/list/101/
 
 DB中身
-ocg_cid(int) | カード名(str) | カード種類(str/int) | 属性(str/int) | レベル・ランク・リンク(int) | 効果(bool) | 種族(str/int) | その他(str/int) | 効果(str) | ペンデュラム(bool) | pスケール(int) | p効果(str) | 攻撃力(int) | 守備力(int) | 発売日(date) | 何期(int) | 公式url(str) | ウィキurl(str) | 画像url(str) |
+ocg_cid(int) | カード名(str) | カード種類(str/int) | 属性(str/int) | レベル(int) | 効果(bool) | 種族(str/int) | その他(str/int) | 効果(str) | | 攻撃力(int) | 守備力(int) | 発売日(date) | 何期(int) | 公式url(str) | ウィキurl(str) | 画像url(str) |
 
 カード種類：通常/効果/融合/儀式/魔法/罠
 属性：光/闇/水/炎/地/風/神/魔/罠

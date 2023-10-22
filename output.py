@@ -87,8 +87,8 @@ def output_monster(card_status, monster_status, base_text, base_release):
     print(release + ', ' + season + ', ' + _04)
     print(text)
 
-def output_spell(spell_card, base_text, base_release):
-    print(spell_card)
+def output_spell(card_status, base_text, base_release):
+    print(card_status)
     # cleaned_text = re.sub(re.compile('<a.*/a>'), '', base_text.text)
     text = str(base_text)
     text = re.sub(r'<tr[^>]*>', '', text)

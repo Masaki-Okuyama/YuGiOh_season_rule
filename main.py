@@ -18,27 +18,27 @@ def main():
     while card_index < len(cards):
         if cards[card_index].find(class_ = 'magic'):
             # 魔法カードの情報ならここに
-            # spell_info = cards[card_index]
+            # card_status = cards[card_index]
             # card_text = cards[card_index + 1]
             # print('****************')
-            # output_spell(spell_info, card_text, release)
+            # output_spell(card_status, card_text, release)
             # print()
             card_index = card_index + 1
         elif cards[card_index].find(class_ = 'trap'):
             # 罠カードの情報ならここに
-            # spell_info = cards[card_index]
+            # card_status = cards[card_index]
             # card_text = cards[card_index + 1]
             # print('****************')
-            # output_spell(spell_info, card_text, release)
+            # output_spell(card_status, card_text, release)
             # print()
             card_index = card_index + 1
         elif cards[card_index].find(class_ = 'card-number'):
             # モンスターカードの情報ならここに
-            monster_info = cards[card_index]
+            card_status = cards[card_index]
             monster_status = cards[card_index + 1]
             card_text = cards[card_index + 2]
             print('****************')
-            output_monster(monster_info, monster_status, card_text, release)
+            output_monster(card_status, monster_status, card_text, release)
             print()
             card_index = card_index + 2
 

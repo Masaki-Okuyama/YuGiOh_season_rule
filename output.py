@@ -26,28 +26,28 @@ def determine_season(release):
 
     return season, _04
 
-def output_monster(mosnter_card, monster_status, base_text, base_release):
+def output_monster(card_status, monster_status, base_text, base_release):
 
     name = ''
     name_ruby = ''
-    if mosnter_card.find('td', class_ = 'n-mon'):
-        name = mosnter_card.find('td', class_ = 'n-mon').text
-        if mosnter_card.find('td', class_ = 'n-mon').find('div', class_ = 'card-ruby'):
-            name_ruby = mosnter_card.find('td', class_ = 'n-mon').find('div', class_ = 'card-ruby').text
+    if card_status.find('td', class_ = 'n-mon'):
+        name = card_status.find('td', class_ = 'n-mon').text
+        if card_status.find('td', class_ = 'n-mon').find('div', class_ = 'card-ruby'):
+            name_ruby = card_status.find('td', class_ = 'n-mon').find('div', class_ = 'card-ruby').text
             name = name.replace(name_ruby, '')
         else:
             name_ruby = name
-    elif mosnter_card.find('td', class_ = 'f-mon'):
-        name = mosnter_card.find('td', class_ = 'f-mon').text
-        if mosnter_card.find('td', class_ = 'f-mon').find('div', class_ = 'card-ruby'):
-            name_ruby = mosnter_card.find('td', class_ = 'f-mon').find('div', class_ = 'card-ruby').text
+    elif card_status.find('td', class_ = 'f-mon'):
+        name = card_status.find('td', class_ = 'f-mon').text
+        if card_status.find('td', class_ = 'f-mon').find('div', class_ = 'card-ruby'):
+            name_ruby = card_status.find('td', class_ = 'f-mon').find('div', class_ = 'card-ruby').text
             name = name.replace(name_ruby, '')
         else:
             name_ruby = name
-    elif mosnter_card.find('td', class_ = 'r-mon'):
-        name = mosnter_card.find('td', class_ = 'r-mon').text
-        if mosnter_card.find('td', class_ = 'r-mon').find('div', class_ = 'card-ruby'):
-            name_ruby = mosnter_card.find('td', class_ = 'r-mon').find('div', class_ = 'card-ruby').text
+    elif card_status.find('td', class_ = 'r-mon'):
+        name = card_status.find('td', class_ = 'r-mon').text
+        if card_status.find('td', class_ = 'r-mon').find('div', class_ = 'card-ruby'):
+            name_ruby = card_status.find('td', class_ = 'r-mon').find('div', class_ = 'card-ruby').text
             name = name.replace(name_ruby, '')
         else:
             name_ruby = name
@@ -57,7 +57,7 @@ def output_monster(mosnter_card, monster_status, base_text, base_release):
     incantation_type = '-'
     level = monster_status.find(class_ = 'card-star').text
 
-    base_card_type = mosnter_card.find(class_ = 'card-category').text
+    base_card_type = card_status.find(class_ = 'card-category').text
     card_type_list = base_card_type.split("／")
     card_type = '['
     for item in card_type_list:
@@ -80,7 +80,7 @@ def output_monster(mosnter_card, monster_status, base_text, base_release):
     # wiki_url(str)
     # image_url(str)
 
-    print(mosnter_card)
+    print(card_status)
     print(monster_status)
     print(name + '(' + name_ruby)
     print(attribute + ', ' + monster_type + ', ' + incantation_type + ', ' + card_type + ', ' + level)

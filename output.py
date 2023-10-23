@@ -1,29 +1,8 @@
 from bs4 import BeautifulSoup
 import re
-from datetime import datetime
-
-def determine_season(release):
-    date = datetime.strptime(release, "%Y-%m-%d")
-
-    if date <= datetime(2000, 3, 31):
-        season = "1"
-    elif date <= datetime(2002, 5, 15):
-        season = "2"
-    elif date <= datetime(2004, 5, 26):
-        season = "3"
-    elif date <= datetime(2006, 5, 17):
-        season = "4"
-    elif date <= datetime(2008, 3, 14):
-        season = "5"
-    else:
-        return "6"
-
-    if date <= datetime(2004, 11, 25):
-        _04 = 'true'
-    else:
-        _04 = 'false'
-
-    return season, _04
+from func import determine_season
+from func import clean_text
+from func import pick_url
 
 def output_monster(card_status, monster_status, base_text, base_release):
     total_card_data = []
@@ -51,45 +30,46 @@ def output_monster(card_status, monster_status, base_text, base_release):
     card_type = card_type + ']'
     card_type = card_type.replace(', ]',']')
 
-    text = str(base_text)
-    text = re.sub(r'<tr[^>]*>', '', text)
-    text = re.sub(r'<td[^>]*>', '', text)
-    text = re.sub(r'<a[^>]*>', '', text)
-    text = re.sub(r'</[^>]*>', '', text)
-
+    text = clean_text(str(base_text))
     monster_force = monster_status.find_all(class_ = 'card-force')
-    attack = monster_force[0].text
-    defense = monster_force[1].text
+    atk = monster_force[0].text
+    def_ = monster_force[1].text
     release = base_release
-    season, _04 = determine_season(release)
+    season, zero_four = determine_season(release)
 
-    url_buffer = card_status.find_all(href=re.compile("yugioh-card.com"))
-    ocg_url = url_buffer[0].attrs['href']
+    a_tags = card_status.find(class_ = 'card-info')
+    ocg_url = pick_url(a_tags, "yugioh-card.com")
     cid = ocg_url.split('cid=')[1]
-    url_buffer = card_status.find_all(href=re.compile("yugioh-wiki.net"))
-    wiki_url = url_buffer[0].attrs['href']
-    url_buffer = card_status.find_all(href=re.compile("/img/card"))
-    image_url = url_buffer[0].attrs['href']
+    wiki_url = pick_url(a_tags, "yugioh-wiki.net")
+    image_url = pick_url(card_status, "/img/card")
     image_url = 'https://ocg-card.com' + image_url
 
+    total_card_data.append(cid)
+    total_card_data.append(name)
+    total_card_data.append(name_ruby)
+    total_card_data.append(attribute)
+    total_card_data.append(monster_type)
+    total_card_data.append(incantation_type)
+    total_card_data.append(level)
+    total_card_data.append(card_type)
+    total_card_data.append(text)
+    total_card_data.append(atk)
+    total_card_data.append(def_)
+    total_card_data.append(release)
+    total_card_data.append(season)
+    total_card_data.append(zero_four)
+    total_card_data.append(ocg_url)
+    total_card_data.append(wiki_url)
+    total_card_data.append(image_url)
 
+    print(len(total_card_data))
+    print(total_card_data[7])
+    print(total_card_data)
 
-    print(name + '(' + name_ruby)
-    print(attribute + ', ' + monster_type + ', ' + incantation_type + ', ' + card_type + ', ' + level + ', ' + attack + ', ' + defense)
-    print(release + ', ' + season + ', ' + _04 + ', ' + cid)
-    print(ocg_url)
-    print(wiki_url)
-    print(image_url)
-    print(text)
 
 def output_spell(card_status, base_text, base_release):
 
-
-    text = str(base_text)
-    text = re.sub(r'<tr[^>]*>', '', text)
-    text = re.sub(r'<td[^>]*>', '', text)
-    text = re.sub(r'<a[^>]*>', '', text)
-    text = re.sub(r'</[^>]*>', '', text)
+    text = clean_text(str(base_text))
 
     print(card_status)
     print(text)

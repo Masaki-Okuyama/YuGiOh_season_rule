@@ -32,7 +32,7 @@ def main():
             # output_spell(card_status, card_text, release)
             # print()
             card_index = card_index + 1
-        elif cards[card_index].find(class_ = 'card-number'):
+        elif cards[card_index].find(class_ = re.compile("-mon")):
             # モンスターカードの情報ならここに
             card_status = cards[card_index]
             monster_status = cards[card_index + 1]

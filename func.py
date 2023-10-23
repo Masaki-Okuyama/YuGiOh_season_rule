@@ -44,12 +44,10 @@ def pick_url(html, base_url):
 def get_release(card_html_url):
     html = requests.get(card_html_url)
     soup = BeautifulSoup(html.content, "html.parser")
-    release = soup.find(class_ = 'entry-content cf').find(text=re.compile('年'))
+    release = soup.find(class_ ="entry-date date published updated").text
     if release:
         release = release.replace(' ','')
-        release = release.replace('年','-')
-        release = release.replace('月','-')
-        release = release.split('日')[0]
+        release = release.replace('/','-')
     else:
         release = '1000-01-01'
     parts = release.split('-')
@@ -57,6 +55,8 @@ def get_release(card_html_url):
     year = parts[0]
     month = parts[1].zfill(2)
     day = parts[2].zfill(2)
+    if day == '00':
+        day = '01'
     # 0埋めされた日付部分を結合
     release = f"{year}-{month}-{day}"
     return release

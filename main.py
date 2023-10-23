@@ -10,7 +10,7 @@ def main():
     # 5期はpage=80まで
     # 被りありだとpage=186まで
 
-    for page in range(1,2,1):
+    for page in range(23,81,1):
         get_url = base_url + str(page)
         html = requests.get(get_url)
         soup = BeautifulSoup(html.content, "html.parser")
@@ -19,10 +19,10 @@ def main():
         card_data_list = []
         card_index = 0
         while card_index < len(cards):
-            # **************************
-            print(str(page) + ': ' + str(card_index))
-            # **************************
             if cards[card_index].find(class_ = 'magic'):
+                # **************************
+                print(str(page) + ': magic ' + str(card_index))
+                # **************************
                 # 魔法カードの情報ならここに
                 if cards[card_index].find(href = re.compile("yugioh-card.com")):
                     # OCGカードのみ
@@ -31,6 +31,9 @@ def main():
                     card_data_list.append(get_spell(card_status, 'magic', card_text))
                 card_index = card_index + 1
             elif cards[card_index].find(class_ = 'trap'):
+                # **************************
+                print(str(page) + ': trap ' + str(card_index))
+                # **************************
                 # 罠カードの情報ならここに
                 if cards[card_index].find(href = re.compile("yugioh-card.com")):
                     # OCGカードのみ
@@ -39,6 +42,9 @@ def main():
                     card_data_list.append(get_spell(card_status, 'trap', card_text))
                 card_index = card_index + 1
             elif cards[card_index].find(class_ = re.compile("-mon")):
+                # **************************
+                print(str(page) + ': monster ' + str(card_index))
+                # **************************
                 # モンスターカードの情報ならここに
                 if cards[card_index].find(href = re.compile("yugioh-card.com")):
                     # OCGカードのみ

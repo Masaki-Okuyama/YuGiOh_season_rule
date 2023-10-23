@@ -1,10 +1,31 @@
+import requests
 from bs4 import BeautifulSoup
 import re
 from func import determine_season
 from func import clean_text
 from func import pick_url
 
-def get_monster(card_status, monster_status, base_text, base_release):
+def get_release(card_html_url):
+    html = requests.get(card_html_url)
+    soup = BeautifulSoup(html.content, "html.parser")
+    release = soup.find(class_ = 'entry-content cf').find(text=re.compile('年'))
+    if release:
+        release = release.replace(' ','')
+        release = release.replace('年','-')
+        release = release.replace('月','-')
+        release = release.split('日')[0]
+    else:
+        release = '1000-01-01'
+    parts = release.split('-')
+    # 日付部分を0埋めして2桁にする
+    year = parts[0]
+    month = parts[1].zfill(2)
+    day = parts[2].zfill(2)
+    # 0埋めされた日付部分を結合
+    release = f"{year}-{month}-{day}"
+    return release
+
+def get_monster(card_status, monster_status, base_text):
     total_card_data = []
 
     name_name_ruby_html = card_status.find(class_ = re.compile("-mon"))
@@ -34,15 +55,20 @@ def get_monster(card_status, monster_status, base_text, base_release):
     monster_force = monster_status.find_all(class_ = 'card-force')
     atk = monster_force[0].text
     def_ = monster_force[1].text
-    release = base_release
-    season, zero_four = determine_season(release)
 
     a_tags = card_status.find(class_ = 'card-info')
     ocg_url = pick_url(a_tags, "yugioh-card.com")
     cid = ocg_url.split('cid=')[1]
     wiki_url = pick_url(a_tags, "yugioh-wiki.net")
-    image_url = pick_url(card_status, "/img/card")
-    image_url = 'https://ocg-card.com' + image_url
+    if card_status.find(href = re.compile("/img/card")):
+        image_url = pick_url(card_status, "/img/card")
+        image_url = 'https://ocg-card.com' + image_url
+    else:
+        image_url = 'image-not-found'
+    release_url = pick_url(a_tags, "/latest/")
+    release_url = 'https://ocg-card.com' + release_url
+    release = str(get_release(release_url))
+    season, zero_four = determine_season(release)
 
     total_card_data.append(cid)
     total_card_data.append(name)
@@ -65,7 +91,7 @@ def get_monster(card_status, monster_status, base_text, base_release):
     return total_card_data
 
 
-def get_spell(card_status, spell_type, base_text, base_release):
+def get_spell(card_status, spell_type, base_text):
     total_card_data = []
 
     name = ''
@@ -101,15 +127,20 @@ def get_spell(card_status, spell_type, base_text, base_release):
     text = clean_text(str(base_text))
     atk = '-1'
     def_ = '-1'
-    release = base_release
-    season, zero_four = determine_season(release)
 
     a_tags = card_status.find(class_ = 'card-info')
     ocg_url = pick_url(a_tags, "yugioh-card.com")
     cid = ocg_url.split('cid=')[1]
     wiki_url = pick_url(a_tags, "yugioh-wiki.net")
-    image_url = pick_url(card_status, "/img/card")
-    image_url = 'https://ocg-card.com' + image_url
+    if card_status.find(href = re.compile("/img/card")):
+        image_url = pick_url(card_status, "/img/card")
+        image_url = 'https://ocg-card.com' + image_url
+    else:
+        image_url = 'image-not-found'
+    release_url = pick_url(a_tags, "/latest/")
+    release_url = 'https://ocg-card.com' + release_url
+    release = str(get_release(release_url))
+    season, zero_four = determine_season(release)
 
     total_card_data.append(cid)
     total_card_data.append(name)

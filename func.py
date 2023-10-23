@@ -4,7 +4,7 @@ from datetime import datetime
 
 def determine_season(release):
     # 引数の収録日から期と04を判断する関数
-    date = datetime.strptime(release, "%Y-%m-%d")
+    date = datetime.strptime(release, '%Y-%m-%d')
     if date <= datetime(2000, 3, 31):
         season = "1"
     elif date <= datetime(2002, 5, 15):

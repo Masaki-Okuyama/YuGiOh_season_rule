@@ -4,7 +4,7 @@ from func import determine_season
 from func import clean_text
 from func import pick_url
 
-def output_monster(card_status, monster_status, base_text, base_release):
+def get_monster(card_status, monster_status, base_text, base_release):
     total_card_data = []
 
     name_name_ruby_html = card_status.find(class_ = re.compile("-mon"))
@@ -62,14 +62,72 @@ def output_monster(card_status, monster_status, base_text, base_release):
     total_card_data.append(wiki_url)
     total_card_data.append(image_url)
 
-    print(len(total_card_data))
-    print(total_card_data[7])
-    print(total_card_data)
+    return total_card_data
 
 
-def output_spell(card_status, base_text, base_release):
+def get_spell(card_status, spell_type, base_text, base_release):
+    total_card_data = []
 
+    name = ''
+    name_ruby = ''
+    if spell_type == 'magic':
+        name_name_ruby_html = card_status.find(class_ = 'magic')
+        name = name_name_ruby_html.text
+        name_ruby_html = name_name_ruby_html.find('div', class_ = 'card-ruby')
+        if name_ruby_html:
+            name_ruby = name_ruby_html.text
+            name = name.replace(name_ruby, '')
+        else:
+            name_ruby = name
+        attribute = '魔'
+        incantation_type = card_status.find(class_ = 'card-category').text
+        incantation_type = incantation_type.strip('魔法')
+    elif spell_type == 'trap':
+        name_name_ruby_html = card_status.find(class_ = 'trap')
+        name = name_name_ruby_html.text
+        name_ruby_html = name_name_ruby_html.find('div', class_ = 'card-ruby')
+        if name_ruby_html:
+            name_ruby = name_ruby_html.text
+            name = name.replace(name_ruby, '')
+        else:
+            name_ruby = name
+        attribute = '罠'
+        incantation_type = card_status.find(class_ = 'card-category').text
+        incantation_type = incantation_type.strip('罠')
+
+    monster_type = '-'
+    level = '-1'
+    card_type = "['-']"
     text = clean_text(str(base_text))
+    atk = '-1'
+    def_ = '-1'
+    release = base_release
+    season, zero_four = determine_season(release)
 
-    print(card_status)
-    print(text)
+    a_tags = card_status.find(class_ = 'card-info')
+    ocg_url = pick_url(a_tags, "yugioh-card.com")
+    cid = ocg_url.split('cid=')[1]
+    wiki_url = pick_url(a_tags, "yugioh-wiki.net")
+    image_url = pick_url(card_status, "/img/card")
+    image_url = 'https://ocg-card.com' + image_url
+
+    total_card_data.append(cid)
+    total_card_data.append(name)
+    total_card_data.append(name_ruby)
+    total_card_data.append(attribute)
+    total_card_data.append(monster_type)
+    total_card_data.append(incantation_type)
+    total_card_data.append(level)
+    total_card_data.append(card_type)
+    total_card_data.append(text)
+    total_card_data.append(atk)
+    total_card_data.append(def_)
+    total_card_data.append(release)
+    total_card_data.append(season)
+    total_card_data.append(zero_four)
+    total_card_data.append(ocg_url)
+    total_card_data.append(wiki_url)
+    total_card_data.append(image_url)
+
+    return total_card_data
+

@@ -8,8 +8,9 @@ def main():
 
     base_url = 'https://ocg-card.com/list/result/?dup=2&pageNo='
     # 5期はpage=80まで
+    # 被りありだとpage=186まで
 
-    for page in range(1,11,1):
+    for page in range(1,2,1):
         get_url = base_url + str(page)
         html = requests.get(get_url)
         soup = BeautifulSoup(html.content, "html.parser")
@@ -19,7 +20,7 @@ def main():
         card_index = 0
         while card_index < len(cards):
             # **************************
-            print(card_index)
+            print(str(page) + ': ' + str(card_index))
             # **************************
             if cards[card_index].find(class_ = 'magic'):
                 # 魔法カードの情報ならここに
@@ -52,7 +53,7 @@ def main():
         with open('output.txt', 'a', encoding='utf-8') as file:
             # テキストをファイルに書き込む
             for card_data in card_data_list:
-                file.write(str(card_data) + '\n')
+                file.write(' | '.join(card_data) + '\n')
 
 
 if __name__ == "__main__":

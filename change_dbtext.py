@@ -18,30 +18,33 @@ def get_rows_with_element(matrix, target_element):
 
 def main():
     card_list = []
-    with open('database.txt', 'r', encoding='utf-8') as file:
+    noimage_list = []
+    # with open('database.txt', 'r', encoding='utf-8') as file:
+    #     # ファイル内の各行を順に読み込む
+    #     for line in file:
+    #         line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
+    #         card = line.split(" | ")
+    #         card_list.append(card)
+
+    with open('noimage.txt', 'r', encoding='utf-8') as file:
         # ファイル内の各行を順に読み込む
         for line in file:
-            # 行の先頭と末尾の余分な空白文字を削除
-            line = line.strip()
-            # 1行ずつの処理
-
-            # 区切り文字 "|" を使用して文字列を分割し、リストに格納
+            line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
             card = line.split(" | ")
-
-            # 結果を表示
-            card_list.append(card)
+            noimage_list.append(card)
 
     # duplicates_in_card = find_duplicates_in_column(card_list, 0)
 
-    # with open('noimage.txt', 'w', encoding='utf-8') as file:
+    # with open('database.txt', 'w', encoding='utf-8') as file:
     #     # テキストをファイルに書き込む
     #     for card_data in card_list:
     #         file.write(' | '.join(card_data) + '\n')
 
-    matching_rows = get_rows_with_element(card_list, 'https://ocg-card.com/img/card/ocg/dama-062.jpg')
+    # matching_rows = get_rows_with_element(card_list, 'https://ocg-card.com/img/card/ocg/dama-062.jpg')
+
     with open('noimage.txt', 'w', encoding='utf-8') as file:
         # テキストをファイルに書き込む
-        for card_data in matching_rows:
+        for card_data in noimage_list:
             file.write(' | '.join(card_data) + '\n')
 
 

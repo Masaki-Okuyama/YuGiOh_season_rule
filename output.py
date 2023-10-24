@@ -1,10 +1,10 @@
-import requests
 from bs4 import BeautifulSoup
 import re
 from func import determine_season
 from func import clean_text
 from func import pick_url
 from func import get_release
+import sys
 
 def get_monster(card_status, monster_status, base_text):
     total_card_data = []
@@ -33,9 +33,21 @@ def get_monster(card_status, monster_status, base_text):
     card_type = card_type.replace(', ]',']')
 
     text = clean_text(str(base_text))
-    monster_force = monster_status.find_all(class_ = 'card-force')
-    atk = monster_force[0].text
-    def_ = monster_force[1].text
+    monster_force = []
+    atk = ''
+    def_ = ''
+    if monster_status.find(class_ = 'non-stts'):
+        if monster_status.find(class_ = 'card-force'):
+            status_contents =  monster_status.contents
+            atk = status_contents[3].text.replace('-','-1')
+            def_ = status_contents[4].text.replace('-','-1')
+        else:
+            atk = '-1'
+            def_ = '-1'
+    else:
+        monster_force = monster_status.find_all(class_ = 'card-force')
+        atk = monster_force[0].text
+        def_ = monster_force[1].text
 
     a_tags = card_status.find(class_ = 'card-info')
     ocg_url = pick_url(a_tags, "yugioh-card.com")

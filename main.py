@@ -10,7 +10,7 @@ def main():
     # 5期はpage=80まで
     # 被りありだとpage=186まで
 
-    for page in range(23,81,1):
+    for page in range(74,81,1):
         get_url = base_url + str(page)
         html = requests.get(get_url)
         soup = BeautifulSoup(html.content, "html.parser")

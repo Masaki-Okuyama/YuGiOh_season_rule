@@ -7,19 +7,19 @@ def main():
     card_list = []
     noimage_list = []
     newimage_list = []
-    # with open('database.txt', 'r', encoding='utf-8') as file:
-    #     # ファイル内の各行を順に読み込む
-    #     for line in file:
-    #         line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
-    #         card = line.split(" | ")
-    #         card_list.append(card)
-
-    with open('newimage.txt', 'r', encoding='utf-8') as file:
+    with open('database.txt', 'r', encoding='utf-8') as file:
         # ファイル内の各行を順に読み込む
         for line in file:
             line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
             card = line.split(" | ")
             card_list.append(card)
+
+    with open('noimage.txt', 'r', encoding='utf-8') as file:
+        # ファイル内の各行を順に読み込む
+        for line in file:
+            line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
+            card = line.split(" | ")
+            noimage_list.append(card)
 
     # cidが同じものを探す
     # returnは2次元配列
@@ -32,18 +32,19 @@ def main():
     #     noimage_card[16] = get_image(noimage_card)
     #     newimage_list.append(noimage_card)
 
-    #no-imageを見つける
+    # no-imageを見つける
     # returnは2次元配列
-    matching_rows = get_rows_with_element(card_list, 'https://ocg-card.com/img/card/ocg/dama-062.jpg')
+    # matching_rows = get_rows_with_element(card_list, 'https://ocg-card.com/img/card/ocg/dama-062.jpg')
 
-    # with open('database.txt', 'w', encoding='utf-8') as file:
-    #     # テキストをファイルに書き込む
-    #     for card_data in card_list:
-    #         file.write(' | '.join(card_data) + '\n')
+    # noimageとcardlist比べて同じデータあったら差し替える
+    for data_row in card_list:
+        for no_row in noimage_list:
+            if data_row[0] == no_row[0]:
+                data_row[16] = no_row[16]
 
-    with open('noimage.txt', 'w', encoding='utf-8') as file:
+    with open('newimage.txt', 'w', encoding='utf-8') as file:
         # テキストをファイルに書き込む
-        for card_data in matching_rows:
+        for card_data in card_list:
             file.write(' | '.join(card_data) + '\n')
 
 

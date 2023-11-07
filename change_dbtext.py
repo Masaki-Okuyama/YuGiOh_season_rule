@@ -2,11 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from func import pick_url
+from func import clean_text
 
 def main():
     card_list = []
     noimage_list = []
     newimage_list = []
+
     with open('database.txt', 'r', encoding='utf-8') as file:
         # ファイル内の各行を順に読み込む
         for line in file:
@@ -14,12 +16,12 @@ def main():
             card = line.split(" | ")
             card_list.append(card)
 
-    with open('noimage.txt', 'r', encoding='utf-8') as file:
-        # ファイル内の各行を順に読み込む
-        for line in file:
-            line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
-            card = line.split(" | ")
-            noimage_list.append(card)
+    # with open('noimage.txt', 'r', encoding='utf-8') as file:
+    #     # ファイル内の各行を順に読み込む
+    #     for line in file:
+    #         line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
+    #         card = line.split(" | ")
+    #         noimage_list.append(card)
 
     # cidが同じものを探す
     # returnは2次元配列
@@ -36,13 +38,16 @@ def main():
     # returnは2次元配列
     # matching_rows = get_rows_with_element(card_list, 'https://ocg-card.com/img/card/ocg/dama-062.jpg')
 
-    # noimageとcardlist比べて同じデータあったら差し替える
-    for data_row in card_list:
-        for no_row in noimage_list:
-            if data_row[0] == no_row[0]:
-                data_row[16] = no_row[16]
+    for card_data in card_list:
+        card_data[8] = get_correcr_text(card_data[14])
 
-    with open('newimage.txt', 'w', encoding='utf-8') as file:
+    # noimageとcardlist比べて同じデータあったら差し替える
+    # for data_row in card_list:
+    #     for no_row in noimage_list:
+    #         if data_row[0] == no_row[0]:
+    #             data_row[16] = no_row[16]
+
+    with open('output.txt', 'w', encoding='utf-8') as file:
         # テキストをファイルに書き込む
         for card_data in card_list:
             file.write(' | '.join(card_data) + '\n')
@@ -82,6 +87,18 @@ def get_image(noimage_card):
         image_url = 'https://ocg-card.com/img/card/ocg/dama-062.jpg'
 
     return image_url
+
+def get_correcr_text(base_url):
+
+    card_url = base_url + '&request_locale=ja'
+    html = requests.get(card_url )
+    soup = BeautifulSoup(html.content, "html.parser")
+    card_info = soup.find(class_ = 'item_box_text')
+    origin_card_text = clean_text(str(card_info))
+    card_text = origin_card_text.replace('カードテキスト','').replace('\t','').replace('\n','')
+
+    print(card_text)
+    return card_text
 
 
 if __name__ == "__main__":

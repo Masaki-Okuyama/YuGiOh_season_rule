@@ -2,7 +2,7 @@
 遊戯王を○期縛りで遊ぶときにサポートするもの｀
 
 ## 制作デザイン案
-[figma](https://www.figma.com/file/6JKZf76DfRMJ2XG2W6nHdz/%E9%81%8A%E6%88%AF%E7%8E%8B%E3%82%A2%E3%82%B7%E3%82%B9%E3%83%88%E3%83%84%E3%83%BC%E3%83%AB?type=design&node-id=0%3A1&mode=design&t=EBzohXTMC438HCPm-1)
+
 
 ## DBの中身
 cid(int) | name(str) | name_ruby(str) | attribute(str) | monster_type(str) | incantation_type(str) | level(int) | card_type(array) | text(str) | atk(int) | def(int) | release(str) | season(int) | zero_four(bool) | ocg_url(str) | wiki_url(str) | image_url(str) |

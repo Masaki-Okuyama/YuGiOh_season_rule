@@ -32,6 +32,7 @@ def clean_text(base_text):
     text = re.sub(r'<tr[^>]*>', '', text)
     text = re.sub(r'<td[^>]*>', '', text)
     text = re.sub(r'<a[^>]*>', '', text)
+    text = re.sub(r'<div[^>]*>', '', text)
     text = re.sub(r'</[^>]*>', '', text)
     return text
 

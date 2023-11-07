@@ -38,8 +38,11 @@ def main():
     # returnは2次元配列
     # matching_rows = get_rows_with_element(card_list, 'https://ocg-card.com/img/card/ocg/dama-062.jpg')
 
+    # card_list[795][7] = get_correct_cardtype(card_list[795][14])
+
     for card_data in card_list:
-        card_data[8] = get_correcr_text(card_data[14])
+        if not card_data[4] == '-':
+            card_data[7] = get_correct_cardtype(card_data[14])
 
     # noimageとcardlist比べて同じデータあったら差し替える
     # for data_row in card_list:
@@ -88,7 +91,27 @@ def get_image(noimage_card):
 
     return image_url
 
-def get_correcr_text(base_url):
+def get_correct_cardtype(base_url):
+
+    card_url = base_url + '&request_locale=ja'
+    html = requests.get(card_url )
+    soup = BeautifulSoup(html.content, "html.parser")
+    card_info = soup.find(class_ = 'species')
+    origin_card_text = clean_text(str(card_info))
+    card_text = origin_card_text.replace('\t','').replace('\n','')
+    monster_card_type = card_text.split('／')
+    monster_card_type.pop(0)
+
+    return_text = '['
+    for item in monster_card_type:
+        return_text = return_text + "'" + item + "'" + ', '
+    return_text = return_text + ']'
+    return_text = return_text.replace(', ]',']')
+
+    print(return_text)
+    return return_text
+
+def get_correct_text(base_url):
 
     card_url = base_url + '&request_locale=ja'
     html = requests.get(card_url )

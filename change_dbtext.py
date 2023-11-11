@@ -34,15 +34,17 @@ def main():
     #     noimage_card[16] = get_image(noimage_card)
     #     newimage_list.append(noimage_card)
 
+    # OCGページからカードの正しい種類を持ってくる
+    # for card_data in card_list:
+    #     if not card_data[4] == '-':
+    #         card_data[7] = get_correct_cardtype(card_data[14])
+
+    for card_data in card_list:
+        card_data[7] = card_data[7].replace("'", "\"")
+
     # no-imageを見つける
     # returnは2次元配列
     # matching_rows = get_rows_with_element(card_list, 'https://ocg-card.com/img/card/ocg/dama-062.jpg')
-
-    # card_list[795][7] = get_correct_cardtype(card_list[795][14])
-
-    for card_data in card_list:
-        if not card_data[4] == '-':
-            card_data[7] = get_correct_cardtype(card_data[14])
 
     # noimageとcardlist比べて同じデータあったら差し替える
     # for data_row in card_list:
@@ -50,7 +52,7 @@ def main():
     #         if data_row[0] == no_row[0]:
     #             data_row[16] = no_row[16]
 
-    with open('output.txt', 'w', encoding='utf-8') as file:
+    with open('buff.txt', 'w', encoding='utf-8') as file:
         # テキストをファイルに書き込む
         for card_data in card_list:
             file.write(' | '.join(card_data) + '\n')

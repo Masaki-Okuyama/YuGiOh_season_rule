@@ -1,0 +1,32 @@
+{
+    "cid": 4007,
+    "card_name": {
+        "name": "究極完全態・グレート・モス",
+        "name_ruby": "きゅうきょくかんぜんたい・グレート・モス"
+    },
+    "card_properties": {
+        "attribute": "地",
+        "monster_type": "昆虫族",
+        "incantation_type": "-",
+        "level": 8,
+        "card_type": [
+            "特殊召喚",
+            "効果"
+        ]
+    },
+    "text": "このカードは通常召喚できない。「進化の繭」を装備した状態で、自分ターンで数えて６ターン以上が経過した自分フィールドの「プチモス」１体をリリースした場合に特殊召喚できる。",
+    "status": {
+        "atk": 3500,
+        "def": 3000
+    },
+    "card_release": {
+        "release": "1999-07-08",
+        "season": 1,
+        "zero_four": true
+    },
+    "card_url": {
+        "ocg_url": "https://www.db.yugioh-card.com/yugiohdb/card_search.action?ope=2&cid=4073",
+        "wiki_url": "https://yugioh-wiki.net/index.php?%A1%D4%B5%E6%B6%CB%B4%B0%C1%B4%C2%D6%A1%A6%A5%B0%A5%EC%A1%BC%A5%C8%A1%A6%A5%E2%A5%B9%A1%D5"
+    },
+    "image_url": "https://ocg-card.com/img/card/ocg/dp19-013.jpg"
+}

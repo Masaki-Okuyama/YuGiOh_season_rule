@@ -2,3 +2,5 @@
 /YuGiOh
 /text
 /__pycache__
+/db_text
+*.txt

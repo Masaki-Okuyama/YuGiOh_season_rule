@@ -2,7 +2,7 @@ def main():
     card_list = []
     json_list = []
 
-    json_list.append("{\"Records\":[")
+    json_list.append("{\"Cards\":{")
 
     with open('database.txt', 'r', encoding='utf-8') as file:
         # ファイル内の各行を順に読み込む
@@ -26,10 +26,12 @@ def main():
         }
 
         # 結果を出力
-        json_data = str(result_dict).replace("'","\"") + ","
+        json_data = "\"" + str(card_data[0]) + "\":" + str(result_dict).replace("'","\"") + ","
+        json_data = json_data.replace("\"true\"", "true")
+        json_data = json_data.replace("\"false\"", "false")
         json_list.append(json_data)
 
-    json_list.append("]}")
+    json_list.append("}}")
 
     with open('buff.txt', 'w', encoding='utf-8') as file:
         # テキストをファイルに書き込む

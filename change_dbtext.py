@@ -9,19 +9,19 @@ def main():
     noimage_list = []
     newimage_list = []
 
-    with open('database.txt', 'r', encoding='utf-8') as file:
+    with open('./db_text/database.txt', 'r', encoding='utf-8') as file:
         # ファイル内の各行を順に読み込む
         for line in file:
             line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
             card = line.split(" | ")
             card_list.append(card)
 
-    with open('no_image.txt', 'r', encoding='utf-8') as file:
-        # ファイル内の各行を順に読み込む
-        for line in file:
-            line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
-            card = line.split(" | ")
-            noimage_list.append(card)
+    # with open('./db_text/no_image.txt', 'r', encoding='utf-8') as file:
+    #     # ファイル内の各行を順に読み込む
+    #     for line in file:
+    #         line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
+    #         card = line.split(" | ")
+    #         noimage_list.append(card)
 
     # cidが同じものを探す
     # returnは2次元配列
@@ -39,6 +39,7 @@ def main():
     #     if not card_data[4] == '-':
     #         card_data[7] = get_correct_cardtype(card_data[14])
 
+    # ' を " に帰る変える
     # for card_data in card_list:
     #     card_data[7] = card_data[7].replace("'", "\"")
 
@@ -47,12 +48,16 @@ def main():
     # matching_rows = get_rows_with_element(card_list, 'image-not-found')
 
     # noimageとcardlist比べて同じデータあったら差し替える
-    for data_row in card_list:
-        for no_row in noimage_list:
-            if data_row[0] == no_row[0]:
-                data_row[16] = no_row[16]
+    # for data_row in card_list:
+    #     for no_row in noimage_list:
+    #         if data_row[0] == no_row[0]:
+    #             data_row[16] = no_row[16]
 
-    with open('buff.txt', 'w', encoding='utf-8') as file:
+    # 全てのデータの後ろにfalseを追加する
+    for card in card_list:
+        card.append("false")
+
+    with open('./db_text/buff.txt', 'w', encoding='utf-8') as file:
         # テキストをファイルに書き込む
         for card_data in card_list:
             file.write(' | '.join(card_data) + '\n')

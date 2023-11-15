@@ -2,5 +2,7 @@
 /YuGiOh
 /text
 /__pycache__
-/db_text
+/db_text/*
 *.txt
+!/db_text/database.txt
+!/db_text/database.json

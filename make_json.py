@@ -2,9 +2,9 @@ def main():
     card_list = []
     json_list = []
 
-    json_list.append("{\"Cards\":{")
+    json_list.append("{\"cards\":[")
 
-    with open('database.txt', 'r', encoding='utf-8') as file:
+    with open('./db_text/database.txt', 'r', encoding='utf-8') as file:
         # ファイル内の各行を順に読み込む
         for line in file:
             line = line.strip() # 行の先頭と末尾の余分な空白文字を削除
@@ -22,18 +22,20 @@ def main():
             "status": {"atk": int(card_data[9].strip()), "def": int(card_data[10].strip())},
             "card_release": {"release": card_data[11].strip(), "season": int(card_data[12].strip()), "zero_four": card_data[13].strip()},
             "card_url": {"ocg_url": card_data[14].strip(), "wiki_url": card_data[15].strip()},
-            "image_url": card_data[16].strip()
+            "image_url": card_data[16].strip(),
+            "useful": card_data[17].strip()
         }
 
         # 結果を出力
-        json_data = "\"" + str(card_data[0]) + "\":" + str(result_dict).replace("'","\"") + ","
+        # json_data = "\"" + str(card_data[0]) + "\":" + str(result_dict).replace("'","\"") + "," # オブジェクトで作る時
+        json_data = str(result_dict).replace("'","\"") + ","
         json_data = json_data.replace("\"true\"", "true")
         json_data = json_data.replace("\"false\"", "false")
         json_list.append(json_data)
 
-    json_list.append("}}")
+    json_list.append("]}")
 
-    with open('buff.txt', 'w', encoding='utf-8') as file:
+    with open('./db_text/buff.txt', 'w', encoding='utf-8') as file:
         # テキストをファイルに書き込む
         for card_data in json_list:
             file.write(card_data + '\n')

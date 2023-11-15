@@ -17,5 +17,6 @@ with open('./db_text/database.json', 'r') as file:
 for document_id, document_data in data['Cards'].items():
     doc_ref = db.collection('cards').document(document_id)
     doc_ref.set(document_data)
+    print(document_id)
 
 print('アップロード完了')

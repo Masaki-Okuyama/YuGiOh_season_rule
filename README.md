@@ -1,8 +1,7 @@
 # YuGiOh_season_rule
 遊戯王を○期縛りで遊ぶときにサポートするもの｀
 
-## 制作デザイン案
-
+ ### [完成サイト](https://yugioh-db.takoyama.net/)
 
 ## DBの中身
 cid(int) | name(str) | name_ruby(str) | attribute(str) | monster_type(str) | incantation_type(str) | level(int) | card_type(array) | text(str) | atk(int) | def(int) | release(str) | season(int) | zero_four(bool) | ocg_url(str) | wiki_url(str) | image_url(str) |
